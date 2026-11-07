@@ -39,4 +39,48 @@ router.post('/decks', requireAuth, async (req, res) => {
   }
 });
 
+router.delete('/decks/:id', requireAuth, async (req, res) => {
+  const deckId = Number(req.params.id);
+
+  if (!Number.isInteger(deckId)) {
+    return res.status(400).json({ error: 'That deck id is not valid.' });
+  }
+
+  try {
+    const result = await pool.query(
+      'DELETE FROM decks WHERE id = $1 AND user_id = $2 RETURNING id',
+      [deckId, req.userId]
+    );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Deck not found.' });
+    }
+    res.json({ deleted: deckId });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Something went wrong. Please try again.' });
+  }
+});
+
+router.get('/decks/:id', requireAuth, async (req, res) => {
+  const deckId = Number(req.params.id);
+
+  if (!Number.isInteger(deckId)) {
+    return res.status(400).json({ error: 'That deck id is not valid.' });
+  }
+
+  try {
+    const result = await pool.query(
+      'SELECT id, name FROM decks WHERE id = $1 AND user_id = $2',
+      [deckId, req.userId]
+    );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Deck not found.' });
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Something went wrong. Please try again.' });
+  }
+});
+
 module.exports = router;
