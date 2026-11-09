@@ -1,5 +1,5 @@
 import './AuthPages.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { callServer, saveToken } from '../serverApi.js';
 
@@ -7,6 +7,7 @@ function SignupPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     async function handleSubmit(event) {
     event.preventDefault();
@@ -15,6 +16,7 @@ function SignupPage() {
       await callServer('/signup', 'POST', { email, password });
       const loginData = await callServer('/login', 'POST', { email, password });
       saveToken(loginData.token);
+      navigate('/decks');
     } catch (problem) {
       setError(problem.message);
     }
