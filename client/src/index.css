@@ -1,5 +1,21 @@
+:root {
+  --color-page: #FBF5EF;
+  --color-card: #FFFDF9;
+  --color-panel: #F5E5D9;
+  --color-button: #A85A3E;
+  --color-button-hover: #92492F;
+  --color-label: #9A4E34;
+  --color-text: #2E2822;
+  --color-text-soft: #6B5B50;
+  --color-border: #E8D8CC;
+  --color-input-border: #9A8678;
+  --color-danger: #B42318;
+  --font-headline: Georgia, 'Times New Roman', serif;
+}
+
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 20px;
+  background: var(--color-page);
+  color: var(--color-text);
+  font-family: system-ui, Arial, sans-serif;
 }

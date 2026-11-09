@@ -1,0 +1,138 @@
+.auth-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+.auth-side {
+  background: var(--color-panel);
+  padding: 80px 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.auth-logo {
+  font-family: var(--font-headline);
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--color-label);
+}
+
+.auth-headline {
+  font-family: var(--font-headline);
+  font-size: 48px;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.sample-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 28px 32px;
+  max-width: 440px;
+}
+
+.card-label {
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: var(--color-label);
+  margin: 0 0 8px;
+}
+
+.card-question {
+  font-family: var(--font-headline);
+  font-size: 24px;
+  margin: 0 0 24px;
+}
+
+.card-answer {
+  font-size: 18px;
+  color: var(--color-text-soft);
+  margin: 0;
+}
+
+.auth-form-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.auth-form {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.auth-title {
+  margin: 0;
+  font-size: 36px;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.auth-field label {
+  font-weight: 700;
+}
+
+.auth-field input {
+  height: 52px;
+  box-sizing: border-box;
+  padding: 0 16px;
+  font-size: 16px;
+  border: 1px solid var(--color-input-border);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--color-text);
+}
+
+.auth-button {
+  height: 52px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--color-button);
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.auth-button:hover {
+  background: var(--color-button-hover);
+}
+
+.auth-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-error {
+  margin: 0;
+  color: var(--color-danger);
+}
+
+.auth-switch {
+  margin: 0;
+  text-align: center;
+  color: var(--color-text-soft);
+}
+
+.auth-switch a {
+  color: var(--color-button);
+  font-weight: 700;
+}
+
+.auth-subtitle {
+  font-size: 20px;
+  color: var(--color-text-soft);
+  margin: 0;
+}
