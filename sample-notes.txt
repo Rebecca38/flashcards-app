@@ -1,0 +1,43 @@
+HTTP Methods: Study Notes
+
+What HTTP is
+HTTP (HyperText Transfer Protocol) is the set of rules that a browser and a server use to talk to each other. The browser sends a request, and the server sends back a response. Every request has a method, an address (URL), headers, and sometimes a body. The method tells the server what kind of action the client wants.
+
+GET
+GET asks the server to send back data and does not change anything on the server. Opening a web page uses GET. A GET request normally has no body. GET is called safe because it only reads. It is also idempotent, which means sending the same request many times gives the same result as sending it once.
+
+POST
+POST sends data to the server so it can create something new, such as a new user or a new deck. The data goes in the request body, often as JSON. POST is not idempotent: sending the same POST twice can create two separate items. A successful create usually returns status 201 Created.
+
+PUT
+PUT replaces an existing item with a completely new version. The client sends the whole item. PUT is idempotent: sending the same PUT twice leaves the item in the same final state.
+
+PATCH
+PATCH changes only part of an existing item, for example only the name of a deck. It is smaller than PUT because the client sends only the fields that change.
+
+DELETE
+DELETE removes an item. It is idempotent in effect: after the item is gone, deleting it again leaves the server in the same state, although the server may answer 404 Not Found the second time.
+
+HEAD and OPTIONS
+HEAD is like GET but returns only the headers, not the body. It is useful for checking whether a page exists or when it last changed. OPTIONS asks the server which methods are allowed for an address. Browsers use OPTIONS in a preflight check before certain cross-origin requests.
+
+Status codes
+Every response includes a status code. 2xx means success: 200 OK, 201 Created, 204 No Content. 3xx means redirection. 4xx means the client made a mistake: 400 Bad Request, 401 Unauthorized (not logged in), 403 Forbidden (logged in but not allowed), 404 Not Found, 409 Conflict (for example, an email that is already registered), 429 Too Many Requests (a rate limit). 5xx means the server had a problem: 500 Internal Server Error, 503 Service Unavailable.
+
+Safe and idempotent
+A safe method does not change data on the server: GET, HEAD and OPTIONS. An idempotent method gives the same result when repeated: GET, PUT, DELETE, HEAD and OPTIONS. POST is neither safe nor idempotent. PATCH is usually not idempotent.
+
+REST ideas
+In a REST style API, addresses name things (nouns) and methods are the actions (verbs). For example, GET /decks lists decks, POST /decks creates a deck, GET /decks/5 reads one deck, and DELETE /decks/5 deletes it. Sensible names make an API easy to guess.
+
+Headers and bodies
+Headers carry extra information about a request or a response. Content-Type tells the receiver the format of the body, such as application/json. Authorization carries a login token. A request body is used mainly with POST, PUT and PATCH. GET and DELETE normally have no body.
+
+Authentication
+A token proves who the user is. After login the server sends a token, the browser stores it, and the browser sends it in the Authorization header on later requests. The address says what the client wants, and the token says who is asking.
+
+Caching and CORS
+GET responses can be cached by browsers to save time. CORS is a browser rule that stops a web page from calling a different website's server unless that server allows it with special headers. The server must say which origins may call it.
+
+Common mistakes
+Using GET to change data is a mistake, because links and search crawlers can trigger GET requests by accident. Forgetting the Content-Type header when sending JSON is another common mistake. Treating 404 and 403 as the same thing is also wrong: 404 means not found, and 403 means not allowed. Finally, returning different messages for a wrong email and a wrong password leaks which emails are registered.

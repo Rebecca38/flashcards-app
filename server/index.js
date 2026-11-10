@@ -5,12 +5,14 @@ const { initDb } = require('./db');
 const authRoutes = require('./auth');
 const requireAuth = require('./requireAuth');
 const deckRoutes = require('./decks');
+const generateRoutes = require('./generate');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(authRoutes);
 app.use(deckRoutes);
+app.use(generateRoutes);
 
 app.get('/health', (req, res) => {
   res.send('ok');
