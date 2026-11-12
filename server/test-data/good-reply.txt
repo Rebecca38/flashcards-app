@@ -1,0 +1,6 @@
+[
+  { "question": "What does GET do?", "answer": "GET reads data." },
+  { "question": "What does POST do?", "answer": "POST creates data." },
+  { "question": "What does 404 mean?", "answer": "404 means not found." }
+]
+

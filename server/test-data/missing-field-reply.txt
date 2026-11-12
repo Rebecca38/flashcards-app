@@ -1,0 +1,4 @@
+[
+  { "question": "What does GET do?", "answer": "GET reads data." },
+  { "question": "What does POST do?" }
+]

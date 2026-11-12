@@ -1,0 +1,10 @@
+Sure! Here are your flashcards:
+
+```json
+[
+  { "question": "What does GET do?", "answer": "GET reads data." },
+  { "question": "What does DELETE do?", "answer": "DELETE removes data." }
+]
+```
+
+I hope these help you study!
