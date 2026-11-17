@@ -10,6 +10,31 @@ const AI_TIMEOUT_MS = 90000;
 const GEMINI_URL =
   'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent';
 
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_MODEL = 'openai/gpt-oss-20b';
+
+async function askGroq(notes) {
+  const groqResponse = await fetch(GROQ_URL, {
+    method: 'POST',
+    signal: AbortSignal.timeout(AI_TIMEOUT_MS),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: GROQ_MODEL,
+      messages: [{ role: 'user', content: buildPrompt(notes) }],
+    }),
+  });
+
+  const data = await groqResponse.json();
+
+  if (!groqResponse.ok) {
+    throw new Error(data.error && data.error.message ? data.error.message : 'Groq request failed');
+  }
+
+  return data.choices[0].message.content;
+}
 router.post('/generate', requireAuth, async (req, res) => {
   const notes = typeof req.body.notes === 'string' ? req.body.notes.trim() : '';
 
@@ -24,37 +49,45 @@ router.post('/generate', requireAuth, async (req, res) => {
     });
   }
 
+  let rawText;
   try {
-    const geminiResponse = await fetch(GEMINI_URL, {
-      method: 'POST',
-      signal: AbortSignal.timeout(AI_TIMEOUT_MS),
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': process.env.GEMINI_API_KEY,
-      },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: buildPrompt(notes) }] }],
-        generationConfig: {
-          thinkingConfig: { thinkingLevel: 'low' },
+    try {
+      const geminiResponse = await fetch(GEMINI_URL, {
+        method: 'POST',
+        signal: AbortSignal.timeout(AI_TIMEOUT_MS),
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': process.env.GEMINI_API_KEY,
         },
-      }),
-    });
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: buildPrompt(notes) }] }],
+          generationConfig: {
+            thinkingConfig: { thinkingLevel: 'low' },
+          },
+        }),
+      });
 
-    const data = await geminiResponse.json();
 
-    if (!geminiResponse.ok) {
-      console.error('Gemini error:', data.error && data.error.message);
 
-      if (geminiResponse.status === 429) {
-        return res.status(429).json({
-          error: 'The free AI limit has been reached for now. Please wait a minute and try again.',
-        });
+      const data = await geminiResponse.json();
+
+      if (!geminiResponse.ok) {
+        console.error('Gemini error:', data.error && data.error.message);
+        const geminiError = new Error('Gemini request failed');
+        geminiError.status = geminiResponse.status;
+        throw geminiError;
       }
 
-      return res.status(502).json({ error: 'The AI could not make cards right now. Please try again.' });
+      rawText = data.candidates[0].content.parts[0].text;
+    } catch (geminiError) {
+      console.error('Gemini failed, trying Groq:', geminiError.message);
+      try {
+        rawText = await askGroq(notes);
+      } catch (groqError) {
+        console.error('Groq error:', groqError.message);
+        throw geminiError;
+      }
     }
-
-    const rawText = data.candidates[0].content.parts[0].text;
 
     let cards;
     try {
@@ -66,6 +99,8 @@ router.post('/generate', requireAuth, async (req, res) => {
       });
     }
 
+    res.json({ cards });
+
   } catch (err) {
     console.error(err.message);
 
@@ -75,6 +110,18 @@ router.post('/generate', requireAuth, async (req, res) => {
     if (aiTooSlowOrOffline) {
       return res.status(504).json({
         error: 'The AI is taking too long, or the internet connection failed. Please try again.',
+      });
+    }
+
+    if (err.status === 429) {
+      return res.status(429).json({
+        error: 'The free AI limit has been reached for now. Please wait a minute and try again.',
+      });
+    }
+
+    if (err.status) {
+      return res.status(502).json({
+        error: 'The AI could not make cards right now. Please try again.',
       });
     }
 

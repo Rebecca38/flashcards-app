@@ -12,12 +12,16 @@ function DeckPage() {
   const [cards, setCards] = useState([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generateError, setGenerateError] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveMessage, setSaveMessage] = useState('');
+  const [saveFailed, setSaveFailed] = useState(false);
 
   useEffect(() => {
     async function loadDeck() {
       try {
         const loadedDeck = await callServer(`/decks/${deckId}`);
         setDeck(loadedDeck);
+        setCards(loadedDeck.cards);
       } catch (problem) {
         setError(problem.message);
       }
@@ -28,7 +32,7 @@ function DeckPage() {
   const trimmedNotes = notes.trim();
   const wordCount = trimmedNotes === '' ? 0 : trimmedNotes.split(/\s+/).length;
 
-    async function handleGenerate() {
+  async function handleGenerate() {
     setGenerateError('');
 
     if (notes.trim() === '') {
@@ -58,6 +62,22 @@ function DeckPage() {
     );
   }
 
+  async function handleSave() {
+    setIsSaving(true);
+    setSaveMessage('');
+    setSaveFailed(false);
+    try {
+      await callServer(`/decks/${deckId}/cards`, 'POST', { cards });
+      setSaveMessage('Deck saved.');
+    } catch (problem) {
+      console.error(problem.message);
+      setSaveMessage('Could not save your deck. Please try again.');
+      setSaveFailed(true);
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
   if (error) {
     return <p>{error}</p>;
   }
@@ -66,7 +86,7 @@ function DeckPage() {
     return <p>Loading...</p>;
   }
 
-    return (
+  return (
     <div>
       <h1>{deck.name}</h1>
 
@@ -95,29 +115,38 @@ function DeckPage() {
             Retry
           </button>
         </div>
-     )}
-     
+      )}
+
       {cards.length > 0 && (
         <div>
           <h2>Cards</h2>
           {cards.map((card, index) => (
             <div key={index}>
               <label>Question</label><br />
-            <input
-              type="text"
-              size="60"
-              value={card.question}
-              onChange={(event) => handleCardChange(index, 'question', event.target.value)}
-            /><br />
-            <label>Answer</label><br />
-            <input
-              type="text"
-              size="60"
-              value={card.answer}
-              onChange={(event) => handleCardChange(index, 'answer', event.target.value)}
-/>
+              <input
+                type="text"
+                size="60"
+                value={card.question}
+                onChange={(event) => handleCardChange(index, 'question', event.target.value)}
+              /><br />
+              <label>Answer</label><br />
+              <input
+                type="text"
+                size="60"
+                value={card.answer}
+                onChange={(event) => handleCardChange(index, 'answer', event.target.value)}
+              />
             </div>
           ))}
+          <button type="button" onClick={handleSave} disabled={isSaving}>
+            {isSaving ? 'Saving...' : 'Save deck'}
+          </button>
+          {saveMessage && <p>{saveMessage}</p>}
+          {saveFailed && (
+            <button type="button" onClick={handleSave} disabled={isSaving}>
+              Retry
+            </button>
+          )}
         </div>
       )}
 

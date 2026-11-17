@@ -22,7 +22,16 @@ async function initDb() {
     )
   `);
 
-  console.log('Database ready: users and decks tables exist');
+    await pool.query(`
+    CREATE TABLE IF NOT EXISTS cards (
+      id SERIAL PRIMARY KEY,
+      deck_id INTEGER NOT NULL REFERENCES decks(id) ON DELETE CASCADE,
+      question TEXT NOT NULL,
+      answer TEXT NOT NULL
+    )
+  `);
+
+  console.log('Database ready: users, decks and cards tables exist');
 }
 
 module.exports = { pool, initDb };
