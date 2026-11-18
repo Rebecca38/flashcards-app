@@ -5,6 +5,7 @@ Rules:
 - Make between 8 and 10 flashcards.
 - Each flashcard has a "question" and an "answer".
 - Keep each question short and clear.
+- Each question must make sense on its own, without the notes. Never write "mentioned", "listed", "in the notes" or "in the text". Put the topic name inside the question.
 - Keep each answer to one or two sentences.
 - Only use facts that are in the notes. Do not add anything new.
 - Reply with ONLY a JSON array. No introduction, no explanation, and no markdown code fences.

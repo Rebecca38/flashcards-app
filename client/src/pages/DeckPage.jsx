@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { callServer } from '../serverApi.js';
+import { Link } from 'react-router-dom';
 
 const MAX_WORDS = 1000;
 
@@ -15,6 +16,7 @@ function DeckPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState('');
   const [saveFailed, setSaveFailed] = useState(false);
+  const [savedCount, setSavedCount] = useState(0);
 
   useEffect(() => {
     async function loadDeck() {
@@ -22,6 +24,7 @@ function DeckPage() {
         const loadedDeck = await callServer(`/decks/${deckId}`);
         setDeck(loadedDeck);
         setCards(loadedDeck.cards);
+        setSavedCount(loadedDeck.cards.length);
       } catch (problem) {
         setError(problem.message);
       }
@@ -69,6 +72,7 @@ function DeckPage() {
     try {
       await callServer(`/decks/${deckId}/cards`, 'POST', { cards });
       setSaveMessage('Deck saved.');
+      setSavedCount(cards.length);
     } catch (problem) {
       console.error(problem.message);
       setSaveMessage('Could not save your deck. Please try again.');
@@ -89,6 +93,12 @@ function DeckPage() {
   return (
     <div>
       <h1>{deck.name}</h1>
+      <p>{cards.length} {cards.length === 1 ? 'card' : 'cards'}</p>
+      {savedCount > 0 && (
+        <p>
+          <Link to={`/decks/${deckId}/review`}>Start review</Link>
+        </p>
+      )}
 
       <label htmlFor="notes-box">Paste your notes</label>
       <br />
