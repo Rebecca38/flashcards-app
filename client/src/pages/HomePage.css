@@ -1,0 +1,70 @@
+.home-page {
+  min-height: 100vh;
+}
+
+.home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 60px;
+}
+
+.home-header-buttons,
+.home-hero-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.home-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 28px;
+  border: 1px solid var(--color-button);
+  border-radius: 12px;
+  background: var(--color-button);
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.home-button:hover {
+  background: var(--color-button-hover);
+}
+
+.home-button-outline {
+  border-color: var(--color-input-border);
+  background: transparent;
+  color: var(--color-text);
+}
+
+.home-button-outline:hover {
+  background: var(--color-card);
+}
+
+.home-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 60px;
+  padding: 80px 60px;
+  background: var(--color-panel);
+}
+
+.home-hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.home-hero .auth-headline {
+  font-size: 64px;
+}
+
+.home-hero-card {
+  display: flex;
+  justify-content: center;
+}
