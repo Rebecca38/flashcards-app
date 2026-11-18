@@ -8,7 +8,11 @@ const deckRoutes = require('./decks');
 const generateRoutes = require('./generate');
 
 const app = express();
-app.use(cors());
+const allowedOrigins = ['http://localhost:5173'];
+if (process.env.CLIENT_URL) {
+  allowedOrigins.push(process.env.CLIENT_URL);
+}
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 app.use(authRoutes);
 app.use(deckRoutes);
