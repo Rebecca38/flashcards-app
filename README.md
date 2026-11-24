@@ -1,11 +1,24 @@
 # LearnEasy: Study Flashcards from Notes
 
-Paste your study notes and the app turns them into flashcards using AI. You can edit the cards and save them to a deck.
+Paste your study notes and the app turns them into flashcards using AI. You can edit the cards, save them to a deck, and study them one by one.
+
+**Live demo:** https://flashcards-app-wheat.vercel.app
+
+The server runs on a free Render plan, so the first request after a period of no use can take about a minute while the server wakes up.
+
+## What you can do
+
+- Sign up and log in with an email and password
+- Create, open and delete decks
+- Paste up to 1000 words of notes and generate 8 to 10 flashcards with AI
+- Edit the questions and answers, then save the deck
+- Study a saved deck in review mode: click a card to flip it, and move with Previous and Next
+- Use it on a laptop or a phone
 
 ## Tech used
 
-- React (built with Vite) for the website
-- Node.js and Express for the server (API)
+- React (built with Vite) for the website, hosted on Vercel
+- Node.js and Express for the server (API), hosted on Render
 - Neon (Postgres) for the database
 - Google Gemini for the AI, with Groq as a backup
 - Email and password login with a token (JWT)
@@ -48,8 +61,11 @@ The server reads its secrets from `server/.env`. This file is never uploaded to 
 - `DATABASE_URL`: the connection string from your Neon database
 - `GEMINI_API_KEY`: a free key from Google AI Studio
 - `GROQ_API_KEY`: a free key from Groq, used as the backup AI
+- `CLIENT_URL`: the address of the website, so the live server accepts requests from it (not needed on your computer)
 
 The keys and the database URL stay on the server and are never sent to the browser.
+
+The website only needs one setting, `VITE_API_URL`, which is the address of the server. It is set in Vercel for the live site.
 
 ## How the AI part works
 

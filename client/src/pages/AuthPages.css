@@ -137,3 +137,28 @@
   color: var(--color-text-soft);
   margin: 0;
 }
+
+@media (max-width: 800px) {
+  .auth-page {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .auth-side {
+    padding: 32px 24px;
+    gap: 16px;
+  }
+
+  .auth-headline {
+    font-size: 36px;
+  }
+
+  .auth-form-area {
+    align-items: flex-start;
+    padding: 32px 24px 48px;
+  }
+
+  .auth-title {
+    font-size: 30px;
+  }
+}

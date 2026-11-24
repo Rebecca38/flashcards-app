@@ -45,3 +45,27 @@
 .nav-links button:hover {
   background: var(--color-panel);
 }
+
+@media (max-width: 600px) {
+  .nav-bar {
+    padding: 12px 16px;
+  }
+
+  .nav-bar .nav-logo {
+    font-size: 20px;
+  }
+
+  .nav-bar .nav-links {
+    gap: 12px;
+  }
+
+  .nav-bar .nav-links a,
+  .nav-bar .nav-links button {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .nav-bar .nav-links button {
+    padding: 6px 12px;
+  }
+}

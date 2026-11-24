@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { callServer } from '../serverApi.js';
 import { Link } from 'react-router-dom';
 import './DeckPage.css';
+import PageHeader from './PageHeader.jsx';
 
 const MAX_WORDS = 1000;
 
@@ -93,13 +94,18 @@ function DeckPage() {
 
   return (
     <div className="deck-page">
-      <h1>{deck.name}</h1>
-      <p>{cards.length} {cards.length === 1 ? 'card' : 'cards'}</p>
-      {savedCount > 0 && (
-        <p>
-          <Link to={`/decks/${deckId}/review`}>Start review</Link>
-        </p>
-      )}
+      <PageHeader
+        eyebrow="Deck"
+        title={deck.name}
+        badge={`${cards.length} ${cards.length === 1 ? 'card' : 'cards'}`}
+        actions={
+          savedCount > 0 && (
+            <Link to={`/decks/${deckId}/review`} className="start-review-button">
+              Start review
+            </Link>
+          )
+        }
+      />
 
       <label htmlFor="notes-box">Paste your notes</label>
       <textarea
@@ -155,15 +161,17 @@ function DeckPage() {
               </div>
             </div>
           ))}
-          <button type="button" onClick={handleSave} disabled={isSaving}>
-            {isSaving ? 'Saving...' : 'Save deck'}
-          </button>
-          {saveMessage && <p>{saveMessage}</p>}
-          {saveFailed && (
+          <div className="save-bar">
             <button type="button" onClick={handleSave} disabled={isSaving}>
-              Retry
+              {isSaving ? 'Saving...' : 'Save deck'}
             </button>
-          )}
+            {saveMessage && <p>{saveMessage}</p>}
+            {saveFailed && (
+              <button type="button" onClick={handleSave} disabled={isSaving}>
+                Retry
+              </button>
+            )}
+          </div>
         </div>
       )}
 

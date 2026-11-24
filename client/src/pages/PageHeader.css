@@ -1,0 +1,52 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.page-header .page-eyebrow {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-label);
+}
+
+.page-header .page-title {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 40px;
+  line-height: 1.1;
+  color: var(--color-text);
+}
+
+.page-header .page-subtitle {
+  margin: 8px 0 0;
+  font-size: 18px;
+  color: var(--color-text-soft);
+}
+
+.page-header .page-title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.page-header .page-badge {
+  background: var(--color-panel);
+  color: var(--color-label);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.page-header .page-actions {
+  display: flex;
+  gap: 12px;
+}

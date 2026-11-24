@@ -1,16 +1,24 @@
 import './HomePage.css';
 import { Link } from 'react-router-dom';
+import NavBar from './NavBar.jsx';
+import { getToken } from '../serverApi.js';
 
 function HomePage() {
+  const isLoggedIn = Boolean(getToken());
+
   return (
     <div className="home-page">
-      <header className="home-header">
-        <div className="auth-logo">LearnEasy</div>
-        <div className="home-header-buttons">
-          <Link to="/login" className="home-button home-button-outline">Log in</Link>
-          <Link to="/signup" className="home-button">Sign up</Link>
-        </div>
-      </header>
+      {isLoggedIn ? (
+        <NavBar />
+      ) : (
+        <header className="home-header">
+          <div className="auth-logo">LearnEasy</div>
+          <div className="home-header-buttons">
+            <Link to="/login" className="home-button home-button-outline">Log in</Link>
+            <Link to="/signup" className="home-button">Sign up</Link>
+          </div>
+        </header>
+      )}
 
       <main className="home-hero">
         <div className="home-hero-text">
@@ -19,8 +27,14 @@ function HomePage() {
             Paste your study notes and LearnEasy turns them into flashcards for you. Then you just study.
           </p>
           <div className="home-hero-buttons">
-            <Link to="/signup" className="home-button">Get started</Link>
-            <Link to="/login" className="home-button home-button-outline">Log in</Link>
+            {isLoggedIn ? (
+              <Link to="/decks" className="home-button">Go to your decks</Link>
+            ) : (
+              <>
+                <Link to="/signup" className="home-button">Get started</Link>
+                <Link to="/login" className="home-button home-button-outline">Log in</Link>
+              </>
+            )}
           </div>
         </div>
 

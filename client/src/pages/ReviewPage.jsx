@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { callServer } from '../serverApi.js';
 import './ReviewPage.css';
+import PageHeader from './PageHeader.jsx';
 
 function ReviewPage() {
     const { deckId } = useParams();
@@ -56,7 +57,7 @@ function ReviewPage() {
     if (cards.length === 0) {
         return (
             <div className="review-page">
-                <h1>{deck.name}</h1>
+                <PageHeader eyebrow="Review" title={deck.name} />
                 <p>This deck has no cards yet. Go back and generate some first.</p>
             </div>
         );
@@ -65,7 +66,7 @@ function ReviewPage() {
     if (isFinished) {
         return (
             <div className="review-page">
-                <h1>{deck.name}</h1>
+                <PageHeader eyebrow="Review" title={deck.name} />
                 <p>You finished this deck. You went through {cards.length} cards.</p>
                 <button type="button" onClick={handleRestart}>
                     Restart
@@ -78,25 +79,35 @@ function ReviewPage() {
 
     return (
         <div className="review-page">
-            <h1>{deck.name}</h1>
+            <PageHeader eyebrow="Review" title={deck.name} />
             <p className="review-count">
                 Card {currentIndex + 1} / {cards.length}
             </p>
 
-            <div className="review-card">
-                <p className="review-label">Question</p>
-                <h2>{currentCard.question}</h2>
-
-                {showAnswer ? (
-                    <>
+            <div
+                className={showAnswer ? 'review-card is-flipped' : 'review-card'}
+                onClick={() => setShowAnswer(!showAnswer)}
+                onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        setShowAnswer(!showAnswer);
+                    }
+                }}
+                role="button"
+                tabIndex={0}
+            >
+                <div className="review-card-inner">
+                    <div className="review-face review-front">
+                        <p className="review-label">Question</p>
+                        <h2>{currentCard.question}</h2>
+                        <p className="review-hint">Click the card to show the answer</p>
+                    </div>
+                    <div className="review-face review-back">
                         <p className="review-label">Answer</p>
                         <p className="review-answer">{currentCard.answer}</p>
-                    </>
-                ) : (
-                    <button type="button" onClick={() => setShowAnswer(true)}>
-                        Show answer
-                    </button>
-                )}
+                        <p className="review-hint">Click the card to flip it back</p>
+                    </div>
+                </div>
             </div>
 
             <div className="review-buttons">

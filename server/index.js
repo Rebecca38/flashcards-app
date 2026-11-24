@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const { initDb } = require('./db');
 const authRoutes = require('./auth');
-const requireAuth = require('./requireAuth');
 const deckRoutes = require('./decks');
 const generateRoutes = require('./generate');
 
@@ -20,10 +19,6 @@ app.use(generateRoutes);
 
 app.get('/health', (req, res) => {
   res.send('ok');
-});
-
-app.get('/me', requireAuth, (req, res) => {
-  res.json({ userId: req.userId });
 });
 
 const PORT = process.env.PORT || 5000;

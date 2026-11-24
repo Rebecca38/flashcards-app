@@ -34,12 +34,12 @@ function LoginPage() {
           <form className="auth-form" onSubmit={handleSubmit}>
           <h2 className="auth-title">Welcome back</h2>
           <div className="auth-field">
-            <label htmlFor="signup-email">Email</label>
-            <input id="signup-email" type="email" placeholder="learneasy@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <label htmlFor="login-email">Email</label>
+            <input id="login-email" type="email" placeholder="learneasy@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
           <div className="auth-field">
-            <label htmlFor="signup-password">Password</label>
-            <input id="signup-password" type="password" placeholder="Your password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <label htmlFor="login-password">Password</label>
+            <input id="login-password" type="password" placeholder="Your password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
           {error && <p className="auth-error">{error}</p>}
           <button type="submit" className="auth-button">Log in</button>

@@ -120,3 +120,56 @@
         grid-template-columns: 1fr;
     }
 }
+
+.deck-page a.start-review-button {
+  display: inline-block;
+  background: var(--color-button);
+  color: #fff;
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.deck-page a.start-review-button:hover {
+  background: var(--color-button-hover);
+}
+
+@media (max-width: 600px) {
+  .deck-page .card-box {
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+
+  .deck-page .card-fields {
+    gap: 8px;
+  }
+
+  .deck-page .card-field textarea {
+    height: 72px;
+    min-height: 72px;
+    padding: 8px 10px;
+    font-size: 15px;
+  }
+
+  .deck-page .card-field-label {
+    font-size: 11px;
+  }
+}
+
+.deck-page .save-bar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 0;
+  background: var(--color-page);
+  border-top: 1px solid var(--color-border);
+}
+
+.deck-page .save-bar p {
+  margin: 0;
+}

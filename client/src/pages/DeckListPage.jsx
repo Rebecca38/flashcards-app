@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './DeckListPage.css';
 import { callServer } from '../serverApi.js';
 import { Link } from 'react-router-dom';
+import PageHeader from './PageHeader.jsx';
 
 function DeckListPage() {
   const [decks, setDecks] = useState([]);
@@ -49,7 +50,11 @@ function DeckListPage() {
 
   return (
     <div className="deck-list-page">
-      <h1>Your decks</h1>
+      <PageHeader
+        eyebrow="Your decks"
+        title="Study decks"
+        subtitle="Pick a deck to edit its cards or start a review."
+      />
       <form onSubmit={handleAddDeck}>
         <label htmlFor="new-deck-name">New deck name</label>
         <div className="new-deck-row">
