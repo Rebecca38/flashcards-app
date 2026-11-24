@@ -25,7 +25,7 @@ function LoginPage() {
     <div className="auth-page">
 
       <div className="auth-side">
-        <div className="auth-logo">LearnEasy</div>
+        <Link to="/" className="auth-logo">LearnEasy</Link>
         <h1 className="auth-headline">Pick up where you left off.</h1>
         <p className="auth-subtitle">Your decks are waiting.</p>
       </div>

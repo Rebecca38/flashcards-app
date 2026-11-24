@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { callServer } from '../serverApi.js';
+import './ReviewPage.css';
 
 function ReviewPage() {
     const { deckId } = useParams();
@@ -54,8 +55,7 @@ function ReviewPage() {
 
     if (cards.length === 0) {
         return (
-            <div>
-                <Link to={`/decks/${deckId}`}>Back to deck</Link>
+            <div className="review-page">
                 <h1>{deck.name}</h1>
                 <p>This deck has no cards yet. Go back and generate some first.</p>
             </div>
@@ -64,8 +64,7 @@ function ReviewPage() {
 
     if (isFinished) {
         return (
-            <div>
-                <Link to={`/decks/${deckId}`}>Back to deck</Link>
+            <div className="review-page">
                 <h1>{deck.name}</h1>
                 <p>You finished this deck. You went through {cards.length} cards.</p>
                 <button type="button" onClick={handleRestart}>
@@ -78,28 +77,41 @@ function ReviewPage() {
     const currentCard = cards[currentIndex];
 
     return (
-        <div>
-            <Link to={`/decks/${deckId}`}>Back to deck</Link>
+        <div className="review-page">
             <h1>{deck.name}</h1>
-            <p>
+            <p className="review-count">
                 Card {currentIndex + 1} / {cards.length}
             </p>
-            <h2>{currentCard.question}</h2>
 
-            {showAnswer ? (
-                <p>{currentCard.answer}</p>
-            ) : (
-                <button type="button" onClick={() => setShowAnswer(true)}>
-                    Show answer
+            <div className="review-card">
+                <p className="review-label">Question</p>
+                <h2>{currentCard.question}</h2>
+
+                {showAnswer ? (
+                    <>
+                        <p className="review-label">Answer</p>
+                        <p className="review-answer">{currentCard.answer}</p>
+                    </>
+                ) : (
+                    <button type="button" onClick={() => setShowAnswer(true)}>
+                        Show answer
+                    </button>
+                )}
+            </div>
+
+            <div className="review-buttons">
+                <button
+                    type="button"
+                    className="secondary-button"
+                    onClick={handlePrevious}
+                    disabled={currentIndex === 0}
+                >
+                    Previous
                 </button>
-            )}
-
-            <button type="button" onClick={handlePrevious} disabled={currentIndex === 0}>
-                Previous
-            </button>
-            <button type="button" onClick={handleNext}>
-                {currentIndex === cards.length - 1 ? 'Finish' : 'Next'}
-            </button>
+                <button type="button" onClick={handleNext}>
+                    {currentIndex === cards.length - 1 ? 'Finish' : 'Next'}
+                </button>
+            </div>
         </div>
     );
 }

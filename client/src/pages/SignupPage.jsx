@@ -26,7 +26,7 @@ function SignupPage() {
     <div className="auth-page">
 
       <div className="auth-side">
-        <div className="auth-logo">LearnEasy</div>
+        <Link to="/" className="auth-logo">LearnEasy</Link>
         <h1 className="auth-headline">Turn your notes into flashcards.</h1>
         <div className="sample-card">
             <p className="card-label">QUESTION</p>

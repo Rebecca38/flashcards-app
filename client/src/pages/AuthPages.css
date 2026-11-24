@@ -13,6 +13,7 @@
 }
 
 .auth-logo {
+  text-decoration: none;
   font-family: var(--font-headline);
   font-size: 28px;
   font-weight: bold;

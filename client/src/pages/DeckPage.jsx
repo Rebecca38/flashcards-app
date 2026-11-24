@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { callServer } from '../serverApi.js';
 import { Link } from 'react-router-dom';
+import './DeckPage.css';
 
 const MAX_WORDS = 1000;
 
@@ -91,7 +92,7 @@ function DeckPage() {
   }
 
   return (
-    <div>
+    <div className="deck-page">
       <h1>{deck.name}</h1>
       <p>{cards.length} {cards.length === 1 ? 'card' : 'cards'}</p>
       {savedCount > 0 && (
@@ -101,7 +102,6 @@ function DeckPage() {
       )}
 
       <label htmlFor="notes-box">Paste your notes</label>
-      <br />
       <textarea
         id="notes-box"
         rows="10"
@@ -131,21 +131,28 @@ function DeckPage() {
         <div>
           <h2>Cards</h2>
           {cards.map((card, index) => (
-            <div key={index}>
-              <label>Question</label><br />
-              <input
-                type="text"
-                size="60"
-                value={card.question}
-                onChange={(event) => handleCardChange(index, 'question', event.target.value)}
-              /><br />
-              <label>Answer</label><br />
-              <input
-                type="text"
-                size="60"
-                value={card.answer}
-                onChange={(event) => handleCardChange(index, 'answer', event.target.value)}
-              />
+            <div className="card-box" key={index}>
+              <span className="card-number">{index + 1}</span>
+              <div className="card-fields">
+                <div className="card-field">
+                  <textarea
+                    rows="3"
+                    aria-label="Question"
+                    value={card.question}
+                    onChange={(event) => handleCardChange(index, 'question', event.target.value)}
+                  />
+                  <span className="card-field-label">Question</span>
+                </div>
+                <div className="card-field">
+                  <textarea
+                    rows="3"
+                    aria-label="Answer"
+                    value={card.answer}
+                    onChange={(event) => handleCardChange(index, 'answer', event.target.value)}
+                  />
+                  <span className="card-field-label">Answer</span>
+                </div>
+              </div>
             </div>
           ))}
           <button type="button" onClick={handleSave} disabled={isSaving}>
